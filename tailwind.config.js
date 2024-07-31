@@ -11,8 +11,14 @@ export default {
 
     theme: {
         extend: {
+            colors:{
+                "primary":"#4817E4",
+                "primary-hover":"#3605D3"
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                "roboto": ["Roboto", 'Sans Serif'],
+                "montserrat": ["Montserrat", 'Sans Serif']
             },
         },
     },

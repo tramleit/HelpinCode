@@ -19,13 +19,12 @@ class GooleAuthController extends Controller
         try {
 
             $user = Socialite::driver('google')->user();
-            
             $this->registerOrLoginUser($user);
 
             return redirect()->intended('dashboard');
         } catch (\Throwable $th) {
 
-            abort(401);
+            abort(400);
         }
     }
     protected function registerOrLoginUser($user)

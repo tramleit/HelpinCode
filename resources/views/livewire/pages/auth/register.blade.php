@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+new #[Layout('layouts.guest')]
+class extends Component {
 
-new #[Layout('layouts.guest')] class extends Component {
     public string $name = '';
     public string $email = '';
     public string $password = '';
@@ -21,10 +22,9 @@ new #[Layout('layouts.guest')] class extends Component {
     {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
-
         $validated['username'] = strtolower('@' . str_replace(' ', '_', $validated['name']));
 
         if (User::where('username', $validated['username'])->count()) {
@@ -33,13 +33,28 @@ new #[Layout('layouts.guest')] class extends Component {
 
         $validated['password'] = Hash::make($validated['password']);
 
-        event(new Registered(($user = User::create($validated))));
+        if (User::where('email', $validated['email'])->count()) {
+            $user = User::where('email', $validated['email'])->first();
 
+            if ($user->password == '' && $user->google_id !== '') {
+                $user->update([
+                    'name' => $validated['name'],
+                    'email' => $validated['email'],
+                    'password' => $validated['password'],
+                ]);
+                event(new Registered($user));
+            } else {
+                $this->validate(['email' => 'unique:' . User::class]);
+            }
+        } else {
+            event(new Registered(($user = User::create($validated))));
+        }
         Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
-}; ?>
+};
+?>
 
 <div>
     <form wire:submit="register">
@@ -89,6 +104,6 @@ new #[Layout('layouts.guest')] class extends Component {
                 {{ __('Register') }}
             </x-primary-button>
         </div>
-        <x-google-button href="{{ route('googleRedirect') }}"/>
+        <x-google-button href="{{ route('googleRedirect') }}" />
     </form>
 </div>
