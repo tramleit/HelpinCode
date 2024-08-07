@@ -24,16 +24,6 @@ class Index extends Component
     #[Computed()]
     public function threads()
     {
-        // if (!empty($this->channelId)) {
-
-        //     $threads->where('channel_id', $this->channelId);
-        // }
-        // if (!empty($this->userId) && request()->RouteIs('users.threads')) {
-        //     $threads->where('user_id', $this->userId);
-        // }
-        // if (request()->RouteIs('dashboard')) {
-        //     $threads->where('user_id', auth()->user()->id);
-        // }
         $threads = Thread::with(['user', 'channel', 'replies']);
 
         if (!empty($this->userId)) {
@@ -51,11 +41,3 @@ class Index extends Component
         return $threads->orderByDesc('id')->Paginate(20);
     }
 }
-
-// return
-            // Thread::with(['user', 'channel', 'replies'])
-            // ->where('user_id', auth()->user()->id)
-            // ->where('name', 'like', "%$this->search%")
-            // ->where('body', 'like', "%$this->search%")
-            // ->orderByDesc('id')
-            // ->Paginate(20);

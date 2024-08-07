@@ -9,11 +9,6 @@ class HomeController extends Controller
 {
     public function __invoke()
     {
-        // $d = Channel::limit(6)
-        //     ->with('threads')
-        //     ->orderByDesc('id')
-        //     ->first();
-
         return view('index', [
             'channels' => Channel::limit(6)
                 ->with('threads')
