@@ -1,20 +1,22 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
+use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
+use Livewire\Attributes\Layout;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
-new #[Layout('layouts.guest')]
-class extends Component {
+use Illuminate\Auth\Events\Registered;
+
+new #[Layout('layouts.guest')] class extends Component {
+    use WithFileUploads;
 
     public string $name = '';
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
-
+    public $image;
     /**
      * Handle an incoming registration request.
      */
@@ -24,9 +26,17 @@ class extends Component {
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'image' => ['required', 'image', 'max:1024'],
         ]);
-        $validated['username'] = strtolower('@' . str_replace(' ', '_', $validated['name']));
 
+        $validated['username'] = strtolower('@' . str_replace(' ', '-', $validated['name']));
+
+        $image = $this->image;
+        $imageName = time() . '-' . str_replace(' ', '-', $validated['name']) . '.' . $image->extension();
+        $image->storeAs('images/logos', $imageName, 'real_public');
+        $validated['image'] = '/images/logos/' . $imageName;
+
+        $validated['password'] = Hash::make($validated['password']);
         if (User::where('username', $validated['username'])->count()) {
             $validated['username'] = strtolower($validated['username'] . '_' . rand(50, 500));
         }
@@ -57,7 +67,7 @@ class extends Component {
 ?>
 
 <div>
-    <form wire:submit="register">
+    <form wire:submit="register" enctype="multipart/form-data">
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -94,6 +104,13 @@ class extends Component {
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <div class="mt-4">
+            <x-input-label for="image" :value="__('Logo')" />
+
+            <input type="file" wire:model="image" class="block mt-1 w-full" />
+
+            <x-input-error :messages="$errors->get('image')" class="mt-2" />
+        </div>
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 href="{{ route('login') }}" wire:navigate>

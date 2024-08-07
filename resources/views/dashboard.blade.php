@@ -1,4 +1,4 @@
-<x-dashboard-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
@@ -7,11 +7,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+            <a href="{{ route('threads.create') }}" wire:navigate class="font-semibold text-xl text-primary hover:underline">Create new
+                Thread</a>
+            <livewire:threads.index :userId="auth()->user()->id"/>
         </div>
     </div>
-</x-dashboard-layout>
+</x-app-layout>

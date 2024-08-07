@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
 use App\Models\Thread;
-use App\Models\Discussion;
 
 class HomeController extends Controller
 {
     public function __invoke()
     {
-        $d = Thread::limit(6)
-            ->with('discussions')
-            ->orderByDesc('id')
-            ->first();
+        // $d = Channel::limit(6)
+        //     ->with('threads')
+        //     ->orderByDesc('id')
+        //     ->first();
 
         return view('index', [
-            'threads' => Thread::limit(6)
-                ->with('discussions')
-                ->orderByDesc('id')
+            'channels' => Channel::limit(6)
+                ->with('threads')
+                ->withCount('threads')
+                ->orderByDesc('threads_count')
                 ->get(),
 
-            'discussions' => Discussion::limit(10)
-                ->with(['user', 'thread', 'replies'])
-                ->orderByDesc('id')
+            'threads' => Thread::limit(10)
+                ->with(['user', 'channel', 'replies'])->withCount('replies')
+                ->orderByDesc('replies_count')
                 ->get()
         ]);
     }

@@ -18,8 +18,8 @@ class ReplyFactory extends Factory
     {
         return [
             'body' => $this->faker->paragraph(2),
-            'user_id' => rand(1, 3),
-            'discussion_id' => rand(1, 400),
+            'user_id' => rand(1, 7),
+            'thread_id' => rand(1, 400),
         ];
     }
 }

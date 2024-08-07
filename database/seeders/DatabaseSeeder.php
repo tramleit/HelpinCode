@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Discussion;
+use App\Models\channel;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(3)->create();
-        Thread::factory()->count(20)->create();
-        Discussion::factory()->count(400)->create();
+        User::factory(7)->create();
+        channel::factory()->count(10)->create();
+        Thread::factory()->count(400)->create();
         Reply::factory()->count(2000)->create();
     }
 }

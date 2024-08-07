@@ -1,7 +1,6 @@
 <x-app-layout>
+    <x-banner />
+    <x-heading class="mt-8">Latest Threads</x-heading>
+    <livewire:threads.index />
 
-    <x-heading class="mt-8">Latest
-        Chennals</x-heading>
-
-        <livewire:threads />
 </x-app-layout>

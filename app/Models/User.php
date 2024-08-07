@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Reply;
-use App\Models\Discussion;
+use App\Models\Channel;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -50,9 +50,9 @@ class User extends Authenticatable //implements MustVerifyEmail
         ];
     }
 
-    public function discussions(): HasMany
+    public function channels(): HasMany
     {
-        return $this->hasMany(Discussion::class);
+        return $this->hasMany(Channel::class);
     }
 
     public function replies(): HasMany

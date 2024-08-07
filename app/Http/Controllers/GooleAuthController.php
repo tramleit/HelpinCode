@@ -23,7 +23,7 @@ class GooleAuthController extends Controller
 
             return redirect()->intended('dashboard');
         } catch (\Throwable $th) {
-
+            dd($th->getMessage());
             abort(400);
         }
     }

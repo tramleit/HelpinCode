@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Discussion>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\channel>
  */
-class DiscussionFactory extends Factory
+class ChannelFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,11 +17,9 @@ class DiscussionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->sentence,
+            'name' => $this->faker->word,
             'slug' => $this->faker->slug,
-            'description' => $this->faker->paragraph,
-            'user_id' => rand(1, 3),
-            'thread_id' => rand(1, 20),
+            'description' => $this->faker->paragraph(),
         ];
     }
 }

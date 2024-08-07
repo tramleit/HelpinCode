@@ -2,13 +2,18 @@
 
 namespace App\Livewire;
 
-use App\Models\Reply as ModelsReply;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Validate;
+use App\Models\Reply as ModelsReply;
+use Illuminate\Support\Facades\Auth;
 
 class Reply extends Component
 {
-    public $discussionId;
+    #[Validate(['required', 'min:3'])]
+    public $reply;
+
+    public $threadId;
     public function render()
     {
 
@@ -18,6 +23,21 @@ class Reply extends Component
     #[Computed()]
     public function replies()
     {
-        return ModelsReply::where('discussion_id', $this->discussionId)->with('user')->paginate(20);
+        return ModelsReply::where('thread_id', $this->threadId)->with('user')->paginate(20);
+    }
+
+    public function createReply()
+    {
+        if (!Auth::user()) {
+            abort(403);
+        }
+        $this->validateOnly('reply');
+        ModelsReply::create([
+            'user_id' => auth()->user()->id,
+            'thread_id' => $this->threadId,
+            'body' => $this->reply
+        ]);
+
+        $this->reset('reply');
     }
 }
