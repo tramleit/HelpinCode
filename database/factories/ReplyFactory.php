@@ -17,8 +17,8 @@ class ReplyFactory extends Factory
     public function definition(): array
     {
         return [
-            'body' => $this->faker->paragraph(2),
-            'user_id' => rand(1, 7),
+            'body' => $this->faker->paragraph(3),
+            'user_id' => rand(1, 20),
             'thread_id' => rand(1, 400),
         ];
     }
