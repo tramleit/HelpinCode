@@ -20,7 +20,7 @@
     </div>
     <a class="text-gray-500 font-medium mb-4"
         href="{{ route('threads.show', [$thread->channel->slug, $thread->slug]) }}" wire:navigate>
-        {{ $thread->body }}</a>
+        {{ strlen($thread->body) > 150 ? substr($thread->body, 0, 150) . '...' : $thread->body }}</a>
     <div class="flex justify-between items-center">
         <span class="text-gray-500 group-hover:text-gray-600 mt-2 font-semibold">{{ $thread->replies->count() }}
             Replies</span>
