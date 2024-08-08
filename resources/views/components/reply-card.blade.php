@@ -3,7 +3,7 @@
     class="bg-white rounded-lg shadow-md p-6 border-2 border-transparent hover:border-primary transition-all duration-300 group">
     <!-- Header -->
     <div class="flex items-center mb-4">
-        <img src="{{ $thread->user->image ?? asset('images/person.svg') }}" alt="User Image"
+        <img src="{{ $thread->user->image ?? 'https://ui-avatars.com/api/?name=' . $thread->user->name . '&background=4817E4&color=fff&bold=true' }}" alt="User Image"
             class="rounded-lg border-primary border-2 mr-4" width="100" height="100">
 
         <div>
@@ -19,5 +19,5 @@
             {{ ucfirst($thread->name) }}</h1>
     </div>
     <!-- Description -->
-    <p class="text-gray-500 font-medium mb-4">{{ $thread->name }}</p>
+    <p class="text-gray-500 font-medium mb-4">{{ $thread->body }}</p>
 </div>
