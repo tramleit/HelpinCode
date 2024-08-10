@@ -1,8 +1,10 @@
 
 # Installation for Help in Code
 
+Help in Code is real time forum website.
+Crating using laravel and livewire
 
-To deploy this project run
+## To deploy this project run
 
 ```bash
   npm run deploy
@@ -56,3 +58,6 @@ Run Server
 ```bash
 php artisan serve
 ```
+
+![Chat Application Image](forum-home.png)
+![Chat Application Image](forum-reply.png)
