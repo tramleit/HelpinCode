@@ -59,5 +59,5 @@ Run Server
 php artisan serve
 ```
 
-![Chat Application Image](forum-home.png)
-![Chat Application Image](forum-reply.png)
+![Home Page](forum-home.png)
+![Reply Page](forum-reply.png)
