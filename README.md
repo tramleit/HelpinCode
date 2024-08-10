@@ -2,7 +2,7 @@
 # Installation for Help in Code
 
 Help in Code is real time forum website.
-Crating using laravel and livewire
+Create using laravel and livewire
 
 ## To deploy this project run
 
